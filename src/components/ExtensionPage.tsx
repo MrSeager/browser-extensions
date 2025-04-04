@@ -39,31 +39,32 @@ const ExtensionPage: FC = () => {
             </Container>
 
             <Container fluid className='mt-5 d-flex flex-row align-items-center justify-content-between px-0'>
-                <h1>Extensions List</h1>
-                <ButtonGroup>
-                    <Button>All</Button>
-                    <Button>Active</Button>
-                    <Button>Inactive</Button>
+                <h1 className='cs-fw-700 cs-tc-one-light'>Extensions List</h1>
+                <ButtonGroup className='gap-3'>
+                    <Button className='px-3 cs-fw-500 rounded-pill border-0 cs-btn-light shadow-sm'>All</Button>
+                    <Button className='px-3 cs-fw-500 rounded-pill border-0 cs-btn-light shadow-sm'>Active</Button>
+                    <Button className='px-3 cs-fw-500 rounded-pill border-0 cs-btn-light shadow-sm'>Inactive</Button>
                 </ButtonGroup>
             </Container>
 
             <Row className=''>
                 {items.length > 0 ? (
                     items.map((item, index) => (
-                        <Col xs={4} className='p-1'>
-                            <Row className='bg-white h-100 shadow-sm rounded rounded-4 m-0 px-2 py-3'>
-                                <Col xs={2}>
+                        <Col lg={4} md={6} xs={12} className='p-1'>
+                            <Row className='bg-white h-100 shadow-sm rounded rounded-4 m-0 px-3 py-3'>
+                                <Col xs={2} className='px-1'>
                                     <Image
-                                        fluid 
+                                        fluid
+                                        className='w-100'
                                         src={'https://raw.githubusercontent.com/MrSeager/browser-extensions/refs/heads/main/src/' + item.logo.replace('.', '')} 
                                     />
                                 </Col>
                                 <Col xs={10}>
-                                    <h2>{item.name}</h2>
-                                    <p>{item.description}</p>
+                                    <h2 className='cs-fw-700 cs-tc-one-light h3'>{item.name}</h2>
+                                    <p className='cs-tc-two-light'>{item.description}</p>
                                 </Col>
-                                <Col xs={12} className='d-flex flex-row align-items-center justify-content-between'>
-                                    <Button className='rounded-pill'>Remove</Button>
+                                <Col xs={12} className='px-1 d-flex flex-row align-items-center justify-content-between'>
+                                    <Button className='rounded-pill cs-fw-700 cs-tc-one-light cs-btn-two-light'>Remove</Button>
                                     <Form.Check
                                         type="switch"
                                         id="custom-switch"
