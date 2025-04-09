@@ -8,17 +8,44 @@ body {
     transition: .5s !important;
 }
 
+.cs-img-dark {
+    -webkit-filter: grayscale(100%) invert(100%) saturate(200%);
+    filter: grayscale(100%) invert(100%) saturate(200%);
+}
+
 /*Background*/
 .cs-bg-light {
     background: rgb(235,242,252) !important;
     background: linear-gradient(180deg, rgba(235,242,252,1) 0%, rgba(238,248,249,1) 100%) !important;
 }
 
+.cs-bg-dark {
+    background: #040918 !important;
+    background: linear-gradient(180deg, #040918 0%, #091540 100%) !important;
+}
+
+.cs-bg-one-light {
+    background-color: hsl(200, 60%, 99%) !important;
+}
+
+.cs-bg-one-dark {
+    background-color: hsl(226, 25%, 17%) !important;
+}
+
+.cs-bg-two-light {
+    background-color: hsl(0, 0%, 93%) !important;
+}
+
+.cs-bg-two-dark {
+    background-color: hsl(225, 23%, 24%) !important;
+}
+
 /*Buttons*/
 .cs-btn-light {
-    background-color: white !important;
+    background-color: hsl(200, 60%, 99%) !important;
     color: hsl(226, 11%, 37%) !important;
     transition: .2s !important;
+    border-color: hsl(0, 0%, 78%) !important;
 }
 
 .cs-btn-light:hover {
@@ -28,7 +55,26 @@ body {
 
 .cs-btn-light:focus {
     background-color: hsl(3, 77%, 44%) !important;
-    color: white !important;
+    color: hsl(200, 60%, 99%) !important;
+    transition: .5s !important;
+}
+
+.cs-btn-dark {
+    background-color: hsl(225, 23%, 24%) !important;
+    color: hsl(200, 60%, 99%) !important;
+    transition: .2s !important;
+    border-color: hsl(0, 0%, 78%) !important;
+}
+
+.cs-btn-dark:hover {
+    outline: solid 2px hsl(3, 77%, 44%) !important;
+    background-color: hsl(226, 11%, 37%) !important;
+    outline-offset: 3px;
+}
+
+.cs-btn-dark:focus {
+    background-color: hsl(3, 77%, 44%) !important;
+    color: hsl(225, 23%, 24%) !important;
     transition: .5s !important;
 }
 
@@ -66,6 +112,72 @@ body {
     color: hsl(225, 23%, 24%) !important;
 }
 
+.cs-tc-one-dark {
+    color: hsl(200, 60%, 99%) !important;
+}
+
 .cs-tc-two-light {
     color: hsl(226, 11%, 37%) !important;
+}
+
+/*Switch*/
+.cs-checkbox .form-check-input {
+    display: none;
+}
+
+.cs-checkbox .form-check-label {
+    display: inline-block;
+    width: 25px; /* Adjust size */
+    height: 25px; /* Adjust size */
+    background-image: url('../assets/images/icon-moon.svg'); /* Unchecked image */
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: .5s !important;
+}
+
+.cs-checkbox:hover {
+    outline: solid 2px hsl(3, 77%, 44%) !important;
+    outline-offset: 3px;
+}
+
+.cs-checkbox .form-check-input:checked + .form-check-label {
+    background-image: url('../assets//images/icon-sun.svg'); /* Checked image */
+}
+
+.cs-switch .form-check-input {
+    width: 2.3em !important;
+    height: 1.3em !important;
+    background-color: hsl(0, 0%, 78%) !important; /* Switch background color */
+    border: none !important;
+    box-shadow: none !important;
+    position: relative;
+    cursor: pointer;
+    outline: solid 2px transparent !important;
+}
+
+.cs-switch .form-check-input:hover {
+    outline: solid 2px hsl(3, 77%, 44%) !important;
+    outline-offset: 3px;
+    transition: .5s !important;
+}
+
+.cs-switch .form-check-input:checked {
+    background-color: hsl(3, 86%, 64%) !important; /* Switch background when checked */
+}
+
+.cs-switch .form-check-input::before {
+    content: '';
+    position: absolute;
+    top: 0.1em;
+    left: 0.1em;
+    width: 1.1em;
+    height: 1.1em;
+    background-color: hsl(200, 60%, 99%); /* Knob color */
+    border-radius: 50%;
+    transition: transform 0.5s ease;
+}
+
+.cs-switch .form-check-input:checked::before {
+    transform: translateX(1em); /* Move the knob when checked */
 }
