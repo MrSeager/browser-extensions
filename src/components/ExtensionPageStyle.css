@@ -5,7 +5,7 @@ body {
 }
 
 .cs-transition {
-    transition: .5s !important;
+    transition: all 0.3s ease-in-out !important;
 }
 
 .cs-img-dark {
@@ -44,7 +44,9 @@ body {
 .cs-btn-light {
     background-color: hsl(200, 60%, 99%) !important;
     color: hsl(226, 11%, 37%) !important;
-    transition: .2s !important;
+    outline: solid 2px transparent !important;
+    outline-offset: 0px;
+    transition: all 0.3s ease-in-out !important;
     border-color: hsl(0, 0%, 78%) !important;
 }
 
@@ -62,7 +64,9 @@ body {
 .cs-btn-dark {
     background-color: hsl(225, 23%, 24%) !important;
     color: hsl(200, 60%, 99%) !important;
-    transition: .2s !important;
+    outline: solid 2px transparent !important;
+    outline-offset: 0px;
+    transition: all 0.3s ease-in-out !important;
     border-color: hsl(0, 0%, 78%) !important;
 }
 
@@ -75,12 +79,13 @@ body {
 .cs-btn-dark:focus {
     background-color: hsl(3, 77%, 44%) !important;
     color: hsl(225, 23%, 24%) !important;
+    border-color: hsl(3, 77%, 44%) !important;
     transition: .5s !important;
 }
 
 .cs-btn-two-light {
     border: solid 1px hsl(226, 11%, 37%) !important;
-    background-color: white !important;
+    background-color: transparent !important;
     transition: .2s !important;
 }
 
@@ -88,7 +93,7 @@ body {
     transition: .5s !important;
     border: solid 1px hsl(3, 77%, 44%) !important;
     background-color: hsl(3, 77%, 44%) !important;
-    color: white !important;
+    color: hsl(0, 0%, 93%) !important;
 }
 
 .cs-btn-two-light:focus {
@@ -97,6 +102,27 @@ body {
     background-color: hsl(0, 0%, 93%) !important;
     border: solid 1px hsl(0, 0%, 93%) !important;
     color: hsl(225, 23%, 24%) !important;
+}
+
+.cs-btn-two-dark {
+    border: solid 1px hsl(226, 11%, 37%) !important;
+    background-color: transparent !important;
+    transition: .2s !important;
+}
+
+.cs-btn-two-dark:hover {
+    transition: .5s !important;
+    border: solid 1px hsl(3, 77%, 44%) !important;
+    background-color: hsl(3, 77%, 44%) !important;
+    color: hsl(225, 23%, 24%) !important;
+}
+
+.cs-btn-two-dark:focus {
+    outline: solid 2px hsl(3, 77%, 44%) !important;
+    outline-offset: 3px;
+    background-color: hsl(226, 11%, 37%) !important;
+    border: solid 1px hsl(226, 11%, 37%) !important;
+    color: hsl(0, 0%, 93%) !important;
 }
 
 /*Font*/
@@ -120,7 +146,16 @@ body {
     color: hsl(226, 11%, 37%) !important;
 }
 
+.cs-tc-two-dark {
+    color: hsl(0, 0%, 78%) !important;
+}
+
 /*Switch*/
+.cs-checkbox {
+    outline: solid 2px transparent !important;
+    outline-offset: 0px;
+}
+
 .cs-checkbox .form-check-input {
     display: none;
 }
@@ -148,12 +183,18 @@ body {
 .cs-switch .form-check-input {
     width: 2.3em !important;
     height: 1.3em !important;
-    background-color: hsl(0, 0%, 78%) !important; /* Switch background color */
+    background-color: hsla(0, 0%, 78%, 0.5) !important; /* Switch background color */
     border: none !important;
     box-shadow: none !important;
     position: relative;
     cursor: pointer;
     outline: solid 2px transparent !important;
+}
+
+.cs-switch .form-check-input {
+    outline: solid 2px transparent !important;
+    outline-offset: 0px;
+    transition: .5s !important;
 }
 
 .cs-switch .form-check-input:hover {

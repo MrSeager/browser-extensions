@@ -2,17 +2,15 @@ import React, { FC, useState, useEffect } from 'react';
 //Components
 import './ExtensionPageStyle.css';
 import NavPanel from './NavPanel.tsx';
+import NavPanelSecond from './NavPanelSecond.tsx';
+import ExtensionItem from './ExtensionItem.tsx';
 //Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Row, Col, Image, Form, Button, ButtonGroup } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 //Axios
 import axios from 'axios';
 //Spring
 import { useSpring, animated } from '@react-spring/web';
-//Images
-import LogoImg from '../assets/images/logo.svg';
-import DarkModeImg from '../assets/images/icon-moon.svg';
-import LightModeImg from '../assets/images/icon-sun.svg';
 
 interface ExtensionProps {
     logo: string;
@@ -23,72 +21,99 @@ interface ExtensionProps {
 
 const ExtensionPage: FC = () => {
     const [items, setItems] = useState<ExtensionProps[]>([]);
+    const [filter, setFilter] = useState<string>("All");
     const [darkMode, setDarkMode] = useState<boolean>(false);
 
+    //Saving theme
+    useEffect(() => {
+        const storedTheme = localStorage.getItem('darkMode');
+        if (storedTheme !== null) {
+            setDarkMode(JSON.parse(storedTheme));
+        }
+    }, []);
+    
+    useEffect(() => {
+        localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    }, [darkMode]);
+
+    //Changing from light theme to dark theme
     const handleDarkMode = () => {
         setDarkMode(!darkMode);
     }
 
+    //Switch chenging in item
+    const handleSwitchChange = (name: string) => {
+        const updatedItems = items.map((currentItem) =>
+            currentItem.name === name ? { ...currentItem, isActive: !currentItem.isActive } : currentItem
+        );
+        setItems(updatedItems);
+    };
+
+    //Remove
+    const handleRemove = (name: string) => {
+        const updatedItems = items.filter((currentItem) => currentItem.name !== name);
+        setItems(updatedItems);
+    };
+
+    //Filtering
+    const handleFilterChange = (newFilter: string) => {
+        setFilter(newFilter);
+    };
+
+    const filteredItems = items.filter((item) => {
+        if (filter === "Active") return item.isActive;
+        if (filter === "Inactive") return !item.isActive;
+        return true; // For 'All', show all items
+    });   
+
+    //Import items from link to items
     useEffect(() => {
         axios.get('https://raw.githubusercontent.com/MrSeager/browser-extensions/refs/heads/main/src/data.json').then((response) => {
             setItems(response.data);
         });
-    }, []);
+    }, []);  
+
+    //Background changing animation gradient
+    const animationProps = useSpring({
+        background: darkMode
+            ? 'linear-gradient(180deg, #040918 0%, #091540 100%)'
+            : 'linear-gradient(180deg, rgba(235,242,252,1) 0%, rgba(238,248,249,1) 100%)',
+        config: { duration: 500 }, // Smoothness of the transition
+    });
 
     return (
-        <Container fluid className={`px-5 cs-transition cs-bg-${!darkMode ? 'light' : 'dark'} d-flex flex-column align-items-center gap-4 py-5 min-vh-100`}>
+        <animated.div
+            style={animationProps}
+            fluid 
+            className={`px-5 cs-transition d-flex flex-column align-items-center gap-4 py-5 min-vh-100`}>
             <NavPanel 
                 darkMode={darkMode}
                 handleDarkMode={handleDarkMode}
             />
 
-            <Container fluid className='mt-5 d-flex flex-row align-items-center justify-content-between px-0'>
-                <h1 className={`cs-fw-700 cs-transition cs-tc-one-${!darkMode ? 'light' : 'dark'}`}>Extensions List</h1>
-                <ButtonGroup className='gap-3'>
-                    <Button className={`px-3 cs-fw-500 rounded-pill cs-btn-${!darkMode ? 'light' : 'dark'} shadow-sm`}>All</Button>
-                    <Button className={`px-3 cs-fw-500 rounded-pill cs-btn-${!darkMode ? 'light' : 'dark'} shadow-sm`}>Active</Button>
-                    <Button className={`px-3 cs-fw-500 rounded-pill cs-btn-${!darkMode ? 'light' : 'dark'} shadow-sm`}>Inactive</Button>
-                </ButtonGroup>
-            </Container>
+            <NavPanelSecond 
+                darkMode={darkMode}
+                handleFilterChange={handleFilterChange}
+            />
 
-            <Row className=''>
-                {items.length > 0 ? (
-                    items.map((item, index) => (
-                        <Col lg={4} md={6} xs={12} className='p-1'>
-                            <Row className={`border cs-transition cs-bg-one-${!darkMode ? 'light' : 'dark'} h-100 shadow-sm rounded rounded-4 m-0 px-3 py-3`}>
-                                <Col xs={2} className='px-1'>
-                                    <Image
-                                        fluid
-                                        className='w-100'
-                                        src={'https://raw.githubusercontent.com/MrSeager/browser-extensions/refs/heads/main/src/' + item.logo.replace('.', '')} 
-                                    />
-                                </Col>
-                                <Col xs={10}>
-                                    <h2 className='cs-fw-700 cs-tc-one-light h3'>{item.name}</h2>
-                                    <p className='cs-tc-two-light'>{item.description}</p>
-                                </Col>
-                                <Col xs={12} className='px-1 d-flex flex-row align-items-center justify-content-between'>
-                                    <Button className='rounded-pill cs-fw-700 cs-tc-one-light cs-btn-two-light'>Remove</Button>
-                                    <Form.Check
-                                        type="switch"
-                                        id="cs-switch"
-                                        className='cs-switch'
-                                        label=""
-                                        checked={item.isActive}
-                                        onChange={() => {
-                                            const updatedItems = items.map((currentItem, i) =>
-                                                i === index ? { ...currentItem, isActive: !currentItem.isActive } : currentItem
-                                            );
-                                            setItems(updatedItems);
-                                        }}
-                                    />
-                                </Col>
-                            </Row>
-                        </Col>
+            <Row className='w-100'>
+                {filteredItems.length > 0 ? (
+                    filteredItems.map((item, index) => (
+                        <ExtensionItem
+                            key={item.name}
+                            darkMode={darkMode}
+                            name={item.name}
+                            description={item.description}
+                            isActive={item.isActive}
+                            handleSwitchChange={handleSwitchChange}
+                            handleRemove={handleRemove}
+                            index={index}
+                            logo={item.logo}
+                        />
                     )
                 )) : <p>Loading....</p>}
             </Row>
-        </Container>
+        </animated.div>
     );
 }
 
