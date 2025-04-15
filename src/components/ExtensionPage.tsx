@@ -6,11 +6,13 @@ import NavPanelSecond from './NavPanelSecond.tsx';
 import ExtensionItem from './ExtensionItem.tsx';
 //Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 //Axios
 import axios from 'axios';
 //Spring
-import { useSpring, animated } from '@react-spring/web';
+import { animated } from '@react-spring/web';
+//anim
+import { useBackgroundAnimation, useNavAnimation, useAnimationSides } from './anim.tsx';
 
 interface ExtensionProps {
     logo: string;
@@ -23,6 +25,11 @@ const ExtensionPage: FC = () => {
     const [items, setItems] = useState<ExtensionProps[]>([]);
     const [filter, setFilter] = useState<string>("All");
     const [darkMode, setDarkMode] = useState<boolean>(false);
+
+    const backgroundAnimation = useBackgroundAnimation(darkMode);
+    const navAnimation = useNavAnimation();
+    const animRightSide = useAnimationSides(-200);
+    const animLeftSide = useAnimationSides(200);
 
     //Saving theme
     useEffect(() => {
@@ -73,27 +80,22 @@ const ExtensionPage: FC = () => {
         });
     }, []);  
 
-    //Background changing animation gradient
-    const animationProps = useSpring({
-        background: darkMode
-            ? 'linear-gradient(180deg, #040918 0%, #091540 100%)'
-            : 'linear-gradient(180deg, rgba(235,242,252,1) 0%, rgba(238,248,249,1) 100%)',
-        config: { duration: 500 }, // Smoothness of the transition
-    });
-
     return (
         <animated.div
-            style={animationProps}
-            fluid 
-            className={`px-5 cs-transition d-flex flex-column align-items-center gap-4 py-5 min-vh-100`}>
+            style={backgroundAnimation} 
+            className={`px-5 cs-transition d-flex flex-column align-items-center gap-4 py-5 min-vh-100 overflow-hidden`}>
+
             <NavPanel 
                 darkMode={darkMode}
                 handleDarkMode={handleDarkMode}
+                animNav={navAnimation}
             />
 
             <NavPanelSecond 
                 darkMode={darkMode}
                 handleFilterChange={handleFilterChange}
+                animRightSide={animRightSide}
+                animLeftSide={animLeftSide}
             />
 
             <Row className='w-100'>
@@ -107,8 +109,8 @@ const ExtensionPage: FC = () => {
                             isActive={item.isActive}
                             handleSwitchChange={handleSwitchChange}
                             handleRemove={handleRemove}
-                            index={index}
                             logo={item.logo}
+                            index={index}
                         />
                     )
                 )) : <p>Loading....</p>}
