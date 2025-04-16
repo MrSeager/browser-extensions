@@ -83,7 +83,7 @@ const ExtensionPage: FC = () => {
     return (
         <animated.div
             style={backgroundAnimation} 
-            className={`px-5 cs-transition d-flex flex-column align-items-center gap-4 py-5 min-vh-100 overflow-hidden`}>
+            className={`container-fluid px-5 cs-transition d-flex flex-column align-items-center gap-4 py-5 min-vh-100 overflow-hidden`}>
 
             <NavPanel 
                 darkMode={darkMode}

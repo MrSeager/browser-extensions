@@ -25,10 +25,10 @@ export const useAnimationSides = (x: number) =>
         config: { tension: 110, friction: 10 },
     });
 
-export const useAnimationItem = (x: number, y: number, del: number, hovered: boolean) => 
+export const useAnimationItem = (x: number, y: number, del: number) => 
     useSpring ({
         from: { opacity: 0, x: `${x}px`, y: `${y}px`, scale: 0 },
-        to: { opacity: 1, x: '0px', y: '0px', scale: hovered ? 1.03 : 1 },
+        to: { opacity: 1, x: '0px', y: '0px', scale: 1 },
         config: { tension: 90, friction: 11 },
-        delay: hovered ? 0 : del
+        delay: del,
     });
